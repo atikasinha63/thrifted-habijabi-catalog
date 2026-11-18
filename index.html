@@ -1,0 +1,518 @@
+---
+
+### File 2: `index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thrifted Habijabi | Curated Vintage & Thrifted Bags in Dhaka</title>
+  <style>
+    :root {
+      --bg-cream: #faf7f2;
+      --card-bg: #ffffff;
+      --text-dark: #2c2523;
+      --text-muted: #6e6259;
+      --accent-terracotta: #b85d3b;
+      --accent-dark: #8c4227;
+      --badge-available: #2e6f40;
+      --badge-sold: #9e3a34;
+      --border-soft: #e6dfd5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Header & Hero */
+    header {
+      background: linear-gradient(135deg, #2c2523 0%, #4a3c38 100%);
+      color: #faf7f2;
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+      border-bottom: 4px solid var(--accent-terracotta);
+    }
+
+    .brand-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 0.3rem 0.9rem;
+      border-radius: 99px;
+      margin-bottom: 0.8rem;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: #d8cfc4;
+      max-width: 580px;
+      margin: 0 auto 1.2rem;
+      font-size: 0.98rem;
+    }
+
+    .header-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: #efe9e0;
+    }
+
+    .header-meta span {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+    }
+
+    /* Controls Bar */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem;
+    }
+
+    .controls-wrapper {
+      background: var(--card-bg);
+      padding: 1.2rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 14px rgba(44, 37, 35, 0.04);
+    }
+
+    .search-box {
+      flex: 1 1 250px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      font-size: 0.92rem;
+      background: var(--bg-cream);
+      color: var(--text-dark);
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      border: 1px solid var(--border-soft);
+      background: var(--bg-cream);
+      color: var(--text-dark);
+      padding: 0.5rem 0.95rem;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .pill-btn.active,
+    .pill-btn:hover {
+      background: var(--accent-terracotta);
+      color: #fff;
+      border-color: var(--accent-terracotta);
+    }
+
+    .stock-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Product Grid */
+    .catalog-stats {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(44, 37, 35, 0.08);
+    }
+
+    .card-visual {
+      height: 190px;
+      background: linear-gradient(135deg, #e8dfd5 0%, #d5c7b8 100%);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .bag-icon {
+      font-size: 3.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .item-code {
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.75);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 0.25rem 0.65rem;
+      border-radius: 99px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .status-available {
+      background: var(--badge-available);
+    }
+
+    .status-sold {
+      background: var(--badge-sold);
+    }
+
+    .card-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-terracotta);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-dark);
+    }
+
+    .card-desc {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .specs-list {
+      font-size: 0.82rem;
+      background: var(--bg-cream);
+      padding: 0.65rem 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 0.9rem;
+    }
+
+    .price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .btn-order {
+      text-decoration: none;
+      background: var(--accent-terracotta);
+      color: #fff;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-order:hover {
+      background: var(--accent-dark);
+    }
+
+    .btn-disabled {
+      background: #ccc5be;
+      color: #6e6259;
+      pointer-events: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      border-top: 1px solid var(--border-soft);
+      margin-top: 3rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--accent-terracotta);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="brand-tag">Est. Dhaka • Sustainable Fashion</span>
+    <h1>Thrifted Habijabi</h1>
+    <p>Handpicked vintage, Y2K, and pre-loved bags. One-of-one pieces curated with care—once a piece is gone, it's gone forever.</p>
+    <div class="header-meta">
+      <span>📍 Delivery across Dhaka & Nationwide</span>
+      <span>💳 bKash / Cash on Delivery</span>
+      <span>📸 IG: @thrifted.habijabi</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="controls-wrapper">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search by bag style, color, or code (e.g. Y2K, Leather)..." />
+      </div>
+
+      <div class="filter-pills" id="categoryFilters">
+        <button class="pill-btn active" data-category="All">All Drops</button>
+        <button class="pill-btn" data-category="Shoulder Bag">Shoulder Bags</button>
+        <button class="pill-btn" data-category="Y2K Vintage">Y2K Vintage</button>
+        <button class="pill-btn" data-category="Tote">Totes</button>
+        <button class="pill-btn" data-category="Crossbody">Crossbody</button>
+      </div>
+
+      <label class="stock-toggle">
+        <input type="checkbox" id="inStockOnly" />
+        In Stock Only
+      </label>
+    </section>
+
+    <div class="catalog-stats">
+      <span id="itemCount">Showing 6 curated pieces</span>
+      <span>DM with Item Code to book</span>
+    </div>
+
+    <section class="grid" id="catalogGrid"></section>
+  </main>
+
+  <footer>
+    <p>Curated by <strong>Atika Ibnath Sinha</strong> • Follow <a href="https://www.instagram.com/thrifted.habijabi" target="_blank" rel="noopener">@thrifted.habijabi</a> on Instagram for live drops & reels.</p>
+  </footer>
+
+  <script>
+    const inventory = [
+      {
+        code: "TH-101",
+        title: "90s Espresso Buckle Shoulder Bag",
+        category: "Y2K Vintage",
+        price: 850,
+        condition: "9.5/10 Mint",
+        material: "Faux Leather",
+        color: "Deep Espresso",
+        available: true,
+        icon: "👜",
+        desc: "Classic structured Y2K baguette silhouette with antique brass buckle hardware and clean satin lining."
+      },
+      {
+        code: "TH-102",
+        title: "Distressed Caramel Everyday Slouch Tote",
+        category: "Tote",
+        price: 1050,
+        condition: "9/10 Vintage",
+        material: "Soft Vegan Leather",
+        color: "Caramel Tan",
+        available: true,
+        icon: "🛍️",
+        desc: "Spacious main compartment that fits a 13-inch laptop or field notebooks comfortably with magnetic snap closure."
+      },
+      {
+        code: "TH-103",
+        title: "Olive Cargo Multi-Pocket Crossbody",
+        category: "Crossbody",
+        price: 780,
+        condition: "9/10 Very Good",
+        material: "Washed Canvas",
+        color: "Olive Green",
+        available: true,
+        icon: "🎒",
+        desc: "Utility streetwear crossbody featuring twin front zipper pockets and an adjustable wide strap for daily transit."
+      },
+      {
+        code: "TH-104",
+        title: "Cherry Red Patent Mini Baguette",
+        category: "Shoulder Bag",
+        price: 720,
+        condition: "9.5/10 Mint",
+        material: "Patent Finish",
+        color: "Cherry Red",
+        available: false,
+        icon: "👛",
+        desc: "Statement evening shoulder bag with glossy finish and silver chain-link strap detail."
+      },
+      {
+        code: "TH-105",
+        title: "Vintage Patchwork Denim Hobo Bag",
+        category: "Y2K Vintage",
+        price: 920,
+        condition: "9/10 Great",
+        material: "Upcycled Denim",
+        color: "Indigo Wash",
+        available: true,
+        icon: "👜",
+        desc: "One-of-a-kind crescent denim hobo bag with contrast topstitching and sturdy brass zip pull."
+      },
+      {
+        code: "TH-106",
+        title: "Minimalist Matte Black Saddle Crossbody",
+        category: "Crossbody",
+        price: 690,
+        condition: "8.5/10 Good",
+        material: "Textured PU",
+        color: "Matte Black",
+        available: false,
+        icon: "💼",
+        desc: "Compact curved saddle silhouette with magnetic flap and internal zip pocket for essentials."
+      }
+    ];
+
+    let currentCategory = "All";
+    const gridEl = document.getElementById("catalogGrid");
+    const searchInput = document.getElementById("searchInput");
+    const inStockCheckbox = document.getElementById("inStockOnly");
+    const itemCountEl = document.getElementById("itemCount");
+
+    function renderCatalog() {
+      const query = searchInput.value.toLowerCase().trim();
+      const stockOnly = inStockCheckbox.checked;
+
+      const filtered = inventory.filter(item => {
+        const matchesCategory = currentCategory === "All" || item.category === currentCategory;
+        const matchesStock = !stockOnly || item.available;
+        const matchesSearch =
+          item.title.toLowerCase().includes(query) ||
+          item.code.toLowerCase().includes(query) ||
+          item.color.toLowerCase().includes(query) ||
+          item.desc.toLowerCase().includes(query);
+        return matchesCategory && matchesStock && matchesSearch;
+      });
+
+      itemCountEl.textContent = `Showing ${filtered.length} of ${inventory.length} curated pieces`;
+
+      gridEl.innerHTML = filtered.map(item => `
+        <article class="card">
+          <div class="card-visual">
+            <span class="status-badge ${item.available ? 'status-available' : 'status-sold'}">
+              ${item.available ? 'Available' : 'Sold Out'}
+            </span>
+            <div class="bag-icon">${item.icon}</div>
+            <span class="item-code">Code: ${item.code}</span>
+          </div>
+          <div class="card-body">
+            <div class="category-label">${item.category}</div>
+            <h2 class="card-title">${item.title}</h2>
+            <p class="card-desc">${item.desc}</p>
+            <div class="specs-list">
+              <span><strong>Condition:</strong> ${item.condition}</span>
+              <span><strong>Color:</strong> ${item.color}</span>
+              <span><strong>Material:</strong> ${item.material}</span>
+              <span><strong>Stock:</strong> 1 of 1 Piece</span>
+            </div>
+            <div class="card-footer">
+              <span class="price">৳${item.price}</span>
+              <a
+                href="https://www.instagram.com/thrifted.habijabi"
+                target="_blank"
+                rel="noopener"
+                class="btn-order ${item.available ? '' : 'btn-disabled'}"
+              >
+                ${item.available ? 'DM to Book →' : 'Sold Out'}
+              </a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    document.querySelectorAll(".pill-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCategory = btn.dataset.category;
+        renderCatalog();
+      });
+    });
+
+    searchInput.addEventListener("input", renderCatalog);
+    inStockCheckbox.addEventListener("change", renderCatalog);
+
+    renderCatalog();
+  </script>
+</body>
+</html>
